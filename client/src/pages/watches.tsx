@@ -23,6 +23,9 @@ import WatchForm from "@/components/watch-form";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { PlusCircle, Edit2 } from "lucide-react";
+import SaleForm from "@/components/sale-form"; // Added import for SaleForm
+import { Euro } from "lucide-react"; // Added import for Euro icon
+
 
 export default function Watches() {
   const { toast } = useToast();
@@ -61,20 +64,37 @@ export default function Watches() {
           <p className="text-muted-foreground">Manage your watch inventory.</p>
         </div>
 
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Add Watch
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Add New Watch</DialogTitle>
-            </DialogHeader>
-            <WatchForm onSuccess={refetch} />
-          </DialogContent>
-        </Dialog>
+        <div className="flex gap-4">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>
+                <PlusCircle className="mr-2 h-4 w-4" />
+                Add Watch
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl">
+              <DialogHeader>
+                <DialogTitle>Add New Watch</DialogTitle>
+              </DialogHeader>
+              <WatchForm onSuccess={refetch} />
+            </DialogContent>
+          </Dialog>
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="secondary">
+                <Euro className="mr-2 h-4 w-4" />
+                Register Sale
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl">
+              <DialogHeader>
+                <DialogTitle>Register New Sale</DialogTitle>
+              </DialogHeader>
+              <SaleForm onSuccess={refetch} />
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       <Card>
