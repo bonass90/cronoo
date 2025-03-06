@@ -54,7 +54,12 @@ const baseWatchSchema = {
 
 export const insertCustomerSchema = createInsertSchema(customers).omit({ id: true, totalSpent: true });
 export const insertWatchSchema = z.object(baseWatchSchema);
-export const insertSaleSchema = createInsertSchema(sales).omit({ id: true });
+export const insertSaleSchema = z.object({
+  customerId: z.string().or(z.number()).transform(val => Number(val)),
+  watchId: z.string().or(z.number()).transform(val => Number(val)),
+  saleDate: z.string().transform(str => new Date(str)),
+  salePrice: z.string().or(z.number()).transform(val => Number(val)),
+});
 export const insertPriceHistorySchema = createInsertSchema(priceHistory).omit({ id: true });
 
 export type Customer = typeof customers.$inferSelect;

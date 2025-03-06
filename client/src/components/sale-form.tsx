@@ -69,10 +69,10 @@ export default function SaleForm({ onSuccess }: { onSuccess: () => void }) {
 
       // Create the sale
       await apiRequest("POST", "/api/sales", {
-        customerId,
-        watchId: parseInt(data.watchId),
+        customerId: Number(customerId),
+        watchId: Number(data.watchId),
         saleDate: new Date(data.saleDate).toISOString(),
-        salePrice: parseFloat(data.salePrice),
+        salePrice: Number(data.salePrice),
       });
 
       toast({
