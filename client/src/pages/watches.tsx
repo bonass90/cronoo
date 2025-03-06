@@ -82,14 +82,14 @@ export default function Watches() {
 
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="secondary">
+              <Button variant="default" className="bg-primary hover:bg-primary/90">
                 <Euro className="mr-2 h-4 w-4" />
-                Register Sale
+                Registra Vendita
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl">
               <DialogHeader>
-                <DialogTitle>Register New Sale</DialogTitle>
+                <DialogTitle>Registra Nuova Vendita</DialogTitle>
               </DialogHeader>
               <SaleForm onSuccess={refetch} />
             </DialogContent>
