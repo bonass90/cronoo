@@ -48,9 +48,9 @@ export default function WatchForm({ onSuccess }: { onSuccess: () => void }) {
     defaultValues: {
       brand: "",
       reference: "",
-      purchaseDate: new Date().toISOString(),
-      purchasePrice: 0,
-      sellingPrice: 0,
+      purchaseDate: new Date().toISOString().split("T")[0],
+      purchasePrice: "",
+      sellingPrice: "",
       caseMaterial: "",
       braceletMaterial: "",
       caseSize: 0,
@@ -60,7 +60,12 @@ export default function WatchForm({ onSuccess }: { onSuccess: () => void }) {
 
   async function onSubmit(data: any) {
     try {
-      await apiRequest("POST", "/api/watches", data);
+      await apiRequest("POST", "/api/watches", {
+        ...data,
+        purchaseDate: new Date(data.purchaseDate).toISOString(),
+        purchasePrice: data.purchasePrice.toString(),
+        sellingPrice: data.sellingPrice.toString(),
+      });
       toast({
         title: "Success",
         description: "Watch added successfully",
@@ -131,10 +136,9 @@ export default function WatchForm({ onSuccess }: { onSuccess: () => void }) {
                 <FormControl>
                   <Input
                     type="number"
+                    step="0.01"
                     {...field}
-                    onChange={(e) =>
-                      field.onChange(parseFloat(e.target.value))
-                    }
+                    onChange={(e) => field.onChange(e.target.value)}
                   />
                 </FormControl>
                 <FormMessage />
@@ -151,10 +155,9 @@ export default function WatchForm({ onSuccess }: { onSuccess: () => void }) {
                 <FormControl>
                   <Input
                     type="number"
+                    step="0.01"
                     {...field}
-                    onChange={(e) =>
-                      field.onChange(parseFloat(e.target.value))
-                    }
+                    onChange={(e) => field.onChange(e.target.value)}
                   />
                 </FormControl>
                 <FormMessage />

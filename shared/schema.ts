@@ -39,8 +39,21 @@ export const priceHistory = pgTable("price_history", {
   changeDate: timestamp("change_date").notNull(),
 });
 
+// Schema personalizzato per la validazione del form
+const baseWatchSchema = {
+  brand: z.string().min(1, "Brand is required"),
+  reference: z.string().min(1, "Reference is required"),
+  purchaseDate: z.string().transform((str) => new Date(str)),
+  purchasePrice: z.string().or(z.number()).transform(val => val.toString()),
+  sellingPrice: z.string().or(z.number()).transform(val => val.toString()),
+  caseMaterial: z.string().min(1, "Case material is required"),
+  braceletMaterial: z.string().min(1, "Bracelet material is required"),
+  caseSize: z.number().min(20, "Case size must be at least 20mm"),
+  dialColor: z.string().min(1, "Dial color is required"),
+};
+
 export const insertCustomerSchema = createInsertSchema(customers).omit({ id: true, totalSpent: true });
-export const insertWatchSchema = createInsertSchema(watches).omit({ id: true, sold: true });
+export const insertWatchSchema = z.object(baseWatchSchema);
 export const insertSaleSchema = createInsertSchema(sales).omit({ id: true });
 export const insertPriceHistorySchema = createInsertSchema(priceHistory).omit({ id: true });
 
