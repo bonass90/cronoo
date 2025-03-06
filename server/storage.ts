@@ -65,7 +65,7 @@ export class MemStorage implements IStorage {
 
   async createCustomer(customer: InsertCustomer): Promise<Customer> {
     const id = this.customerIdCounter++;
-    const newCustomer: Customer = { ...customer, id, totalSpent: 0 };
+    const newCustomer: Customer = { ...customer, id, totalSpent: "0" };
     this.customers.set(id, newCustomer);
     return newCustomer;
   }
@@ -73,10 +73,10 @@ export class MemStorage implements IStorage {
   async updateCustomerTotalSpent(id: number, amount: number): Promise<Customer> {
     const customer = await this.getCustomer(id);
     if (!customer) throw new Error("Customer not found");
-    
+
     const updatedCustomer = {
       ...customer,
-      totalSpent: customer.totalSpent + amount,
+      totalSpent: (Number(customer.totalSpent) + amount).toString(),
     };
     this.customers.set(id, updatedCustomer);
     return updatedCustomer;
@@ -101,7 +101,7 @@ export class MemStorage implements IStorage {
   async updateWatchPrice(id: number, newPrice: number): Promise<Watch> {
     const watch = await this.getWatch(id);
     if (!watch) throw new Error("Watch not found");
-    
+
     const updatedWatch = {
       ...watch,
       sellingPrice: newPrice,
@@ -113,7 +113,7 @@ export class MemStorage implements IStorage {
   async incrementWatchSold(id: number): Promise<Watch> {
     const watch = await this.getWatch(id);
     if (!watch) throw new Error("Watch not found");
-    
+
     const updatedWatch = {
       ...watch,
       sold: watch.sold + 1,
@@ -147,7 +147,9 @@ export class MemStorage implements IStorage {
     );
   }
 
-  async createPriceHistory(priceHistory: InsertPriceHistory): Promise<PriceHistory> {
+  async createPriceHistory(
+    priceHistory: InsertPriceHistory
+  ): Promise<PriceHistory> {
     const id = this.priceHistoryIdCounter++;
     const newPriceHistory: PriceHistory = { ...priceHistory, id };
     this.priceHistory.set(id, newPriceHistory);
