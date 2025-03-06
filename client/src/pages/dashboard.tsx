@@ -7,11 +7,11 @@ export default function Dashboard() {
   const { data: watches } = useQuery<Watch[]>({ 
     queryKey: ["/api/watches"]
   });
-  
+
   const { data: customers } = useQuery<Customer[]>({
     queryKey: ["/api/customers"]
   });
-  
+
   const { data: sales } = useQuery<Sale[]>({
     queryKey: ["/api/sales"]
   });
