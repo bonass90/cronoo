@@ -42,7 +42,7 @@ export default function SalesChart({
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey={dataKey} fill="hsl(215 28% 17%)" />
+            <Bar dataKey={dataKey} fill="hsl(142.1 76.2% 36.3%)"  radius={[20, 20, 20, 20]}  />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

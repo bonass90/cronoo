@@ -26,24 +26,24 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {navigation.map((item) => {
         const Icon = item.icon;
         return (
-          <Link key={item.name} href={item.href}>
-            <a
+          <Link
+            key={item.name}
+            href={item.href}
+            className={cn(
+              "group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6",
+              location === item.href
+                ? "bg-gray-50 font-semibold text-primary"
+                : "text-gray-700 hover:bg-gray-50 hover:text-primary"
+            )}
+          >
+            <Icon className="h-5 w-5 shrink-0" />
+            {item.name}
+            <ChevronRight
               className={cn(
-                "group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6",
-                location === item.href
-                  ? "bg-gray-50 font-semibold text-primary"
-                  : "text-gray-700 hover:bg-gray-50 hover:text-primary"
+                "ml-auto h-5 w-5 opacity-0 transition-opacity",
+                location === item.href && "opacity-100"
               )}
-            >
-              <Icon className="h-5 w-5 shrink-0" />
-              {item.name}
-              <ChevronRight
-                className={cn(
-                  "ml-auto h-5 w-5 opacity-0 transition-opacity",
-                  location === item.href && "opacity-100"
-                )}
-              />
-            </a>
+            />
           </Link>
         );
       })}
