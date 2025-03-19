@@ -4,6 +4,8 @@ import {
   LayoutDashboard,
   Users,
   Watch,
+  TruckIcon, // Icona per i fornitori
+  FileImport,
   ChevronRight,
   Menu,
 } from "lucide-react";
@@ -15,6 +17,8 @@ const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Customers", href: "/customers", icon: Users },
   { name: "Watches", href: "/watches", icon: Watch },
+  { name: "Fornitori", href: "/suppliers", icon: TruckIcon }, // Nuova voce di menu
+  { name: "Importa Dati", href: "/import-data", icon: TruckIcon }, // Nuova voce di menu
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
