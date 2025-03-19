@@ -7,8 +7,9 @@ import Dashboard from "@/pages/dashboard";
 import Customers from "@/pages/customers";
 import Watches from "@/pages/watches";
 import Suppliers from "@/pages/suppliers";
-import ImportData from "@/pages/import-data"; // Aggiunto questo import
+import ImportData from "@/pages/import-data";
 import NotFound from "@/pages/not-found";
+import { ThemeProvider } from "@/components/theme-provider";
 
 function Router() {
   return (
@@ -18,7 +19,7 @@ function Router() {
         <Route path="/customers" component={Customers} />
         <Route path="/watches" component={Watches} />
         <Route path="/suppliers" component={Suppliers} />
-        <Route path="/import-data" component={ImportData} /> {/* Nuova rotta */}
+        <Route path="/import-data" component={ImportData} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
@@ -27,10 +28,12 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router />
-      <Toaster />
-    </QueryClientProvider>
+    <ThemeProvider defaultTheme="light">
+      <QueryClientProvider client={queryClient}>
+        <Router />
+        <Toaster />
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 
