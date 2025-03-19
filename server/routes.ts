@@ -5,8 +5,12 @@ import { insertCustomerSchema, extendedWatchSchema, insertSaleSchema, insertSupp
 import { eq } from "drizzle-orm";
 import { watches } from "@shared/schema";
 import { db } from "../shared/db";
+import { registerDynamicProductRoutes } from "./dynamic-product-routes";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Registra le rotte per i prodotti dinamici
+  registerDynamicProductRoutes(app);
+  
   // Endpoint di diagnostica per il database
   app.get("/api/database-debug", async (_req, res) => {
     try {

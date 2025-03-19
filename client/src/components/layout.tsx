@@ -5,9 +5,11 @@ import {
   Users,
   Watch,
   TruckIcon,
-  FileUp, // Cambio da FileImport a FileUp, che è disponibile in lucide-react
+  FileUp,
   ChevronRight,
   Menu,
+  LayoutGrid,
+  Package
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -16,10 +18,12 @@ import { ThemeToggle } from "@/components/theme-toggle"; // Importazione del The
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
+  { name: "Categorie", href: "/categories", icon: LayoutGrid },
+  { name: "Prodotti", href: "/products", icon: Package },
+  { name: "Orologi", href: "/watches", icon: Watch },
   { name: "Customers", href: "/customers", icon: Users },
-  { name: "Watches", href: "/watches", icon: Watch },
   { name: "Fornitori", href: "/suppliers", icon: TruckIcon },
-  { name: "Importa Dati", href: "/import-data", icon: FileUp }, // Aggiornato a FileUp
+  { name: "Importa Dati", href: "/import-data", icon: FileUp },
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
