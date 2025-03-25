@@ -8,6 +8,8 @@ import Customers from "@/pages/customers";
 import Watches from "@/pages/watches";
 import Suppliers from "@/pages/suppliers";
 import ImportData from "@/pages/import-data";
+import Categories from "@/pages/categories";
+import Products from "@/pages/products";
 import NotFound from "@/pages/not-found";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -20,6 +22,8 @@ function Router() {
         <Route path="/watches" component={Watches} />
         <Route path="/suppliers" component={Suppliers} />
         <Route path="/import-data" component={ImportData} />
+        <Route path="/categories" component={Categories} />
+        <Route path="/products" component={Products} />
         <Route component={NotFound} />
       </Switch>
     </Layout>

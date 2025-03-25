@@ -2,68 +2,6 @@ import { pgTable, text, serial, integer, decimal, timestamp, boolean, unique } f
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-// Watches (orologi) tabella
-export const watches = pgTable("watches", {
-  id: serial("id").primaryKey(),
-  brand: text("brand").notNull(),
-  model: text("model").notNull(),
-  reference: text("reference").notNull(),
-  serialNumber: text("serial_number"),
-  year: integer("year"),
-  condition: text("condition").default("Nuovo"),
-  caseMaterial: text("case_material").default("Acciaio"),
-  braceletMaterial: text("bracelet_material").default("Acciaio"),
-  caseSize: integer("case_size").default(40),
-  dialColor: text("dial_color").default("Nero"),
-  movement: text("movement").default("Automatico"),
-  purchaseDate: timestamp("purchase_date").defaultNow(),
-  purchasePrice: decimal("purchase_price", { precision: 10, scale: 2 }).notNull(),
-  sellingPrice: decimal("selling_price", { precision: 10, scale: 2 }).notNull(),
-  sold: integer("sold").default(0),
-  isSold: boolean("is_sold").default(false),
-  productCode: text("product_code").default(""),
-  accessories: text("accessories").default(""),
-  supplierId: integer("supplier_id"),
-  addedAt: timestamp("added_at").defaultNow(),
-});
-
-// Customers (clienti) tabella
-export const customers = pgTable("customers", {
-  id: serial("id").primaryKey(),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
-  address: text("address").notNull(),
-  totalSpent: decimal("total_spent", { precision: 10, scale: 2 }).default("0"),
-});
-
-// Sales (vendite) tabella
-export const sales = pgTable("sales", {
-  id: serial("id").primaryKey(),
-  customerId: integer("customer_id").notNull(),
-  watchId: integer("watch_id").notNull(),
-  saleDate: timestamp("sale_date").notNull(),
-  salePrice: decimal("sale_price", { precision: 10, scale: 2 }).notNull(),
-});
-
-// Suppliers (fornitori) tabella
-export const suppliers = pgTable("suppliers", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  surname: text("surname").notNull(),
-  document: text("document").default(""),
-  phone: text("phone").default(""),
-  email: text("email").default(""),
-  notes: text("notes").default(""),
-});
-
-// Price History (storico prezzi) tabella
-export const priceHistory = pgTable("price_history", {
-  id: serial("id").primaryKey(),
-  watchId: integer("watch_id").notNull(),
-  price: decimal("price", { precision: 10, scale: 2 }).notNull(),
-  changeDate: timestamp("change_date").defaultNow(),
-});
-
 // Categorie di prodotto
 export const productCategories = pgTable("product_categories", {
   id: serial("id").primaryKey(),
@@ -133,63 +71,6 @@ export const productSales = pgTable("product_sales", {
   notes: text("notes").default(""),
 });
 
-// Schema di validazione per Watch
-export const watchSchema = z.object({
-  brand: z.string().min(1, "Brand è richiesto"),
-  model: z.string().min(1, "Modello è richiesto"),
-  reference: z.string().min(1, "Riferimento è richiesto"),
-  serialNumber: z.string().optional(),
-  year: z.number().optional(),
-  condition: z.string().default("Nuovo"),
-  caseMaterial: z.string().default("Acciaio"),
-  braceletMaterial: z.string().default("Acciaio"),
-  caseSize: z.number().default(40),
-  dialColor: z.string().default("Nero"),
-  movement: z.string().default("Automatico"),
-  purchaseDate: z.string().or(z.date()).transform(val => new Date(val)),
-  purchasePrice: z.string().or(z.number()).transform(val => val.toString()),
-  sellingPrice: z.string().or(z.number()).transform(val => val.toString()),
-  supplierId: z.number().optional().nullable(),
-  accessories: z.string().optional(),
-});
-
-// Schema esteso per Watch (include productCode e altri campi)
-export const extendedWatchSchema = watchSchema.extend({
-  productCode: z.string().optional(),
-});
-
-// Schema di validazione per Customer
-export const insertCustomerSchema = z.object({
-  firstName: z.string().min(1, "Il nome è richiesto"),
-  lastName: z.string().min(1, "Il cognome è richiesto"),
-  address: z.string().min(1, "L'indirizzo è richiesto"),
-});
-
-// Schema di validazione per Sale
-export const insertSaleSchema = z.object({
-  customerId: z.number(),
-  watchId: z.number(),
-  saleDate: z.string().or(z.date()).transform(val => new Date(val)),
-  salePrice: z.number(),
-});
-
-// Schema di validazione per Supplier
-export const insertSupplierSchema = z.object({
-  name: z.string().min(1, "Il nome è richiesto"),
-  surname: z.string().min(1, "Il cognome è richiesto"),
-  document: z.string().optional(),
-  phone: z.string().optional(),
-  email: z.string().optional(),
-  notes: z.string().optional(),
-});
-
-// Schema di validazione per PriceHistory
-export const insertPriceHistorySchema = z.object({
-  watchId: z.number(),
-  price: z.number(),
-  changeDate: z.date(),
-});
-
 // Schema per la validazione
 export const productCategorySchema = z.object({
   name: z.string().min(1, "Il nome della categoria è richiesto"),
@@ -243,19 +124,6 @@ export const insertProductFieldValueSchema = createInsertSchema(productFieldValu
 export const insertProductSaleSchema = createInsertSchema(productSales).omit({ 
   id: true 
 });
-
-// Definizione dei tipi
-export type Watch = typeof watches.$inferSelect;
-export type Customer = typeof customers.$inferSelect;
-export type Sale = typeof sales.$inferSelect;
-export type Supplier = typeof suppliers.$inferSelect;
-export type PriceHistory = typeof priceHistory.$inferSelect;
-
-export type InsertWatch = z.infer<typeof watchSchema>;
-export type InsertCustomer = z.infer<typeof insertCustomerSchema>;
-export type InsertSale = z.infer<typeof insertSaleSchema>;
-export type InsertSupplier = z.infer<typeof insertSupplierSchema>;
-export type InsertPriceHistory = z.infer<typeof insertPriceHistorySchema>;
 
 export type ProductCategory = typeof productCategories.$inferSelect;
 export type CategoryField = typeof categoryFields.$inferSelect;
